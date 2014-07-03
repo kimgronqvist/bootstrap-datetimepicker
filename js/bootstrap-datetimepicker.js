@@ -21,6 +21,12 @@
  * ========================================================= */
 
 /*
+ * Modified by Kim Grönqvist @ 2014-07-03
+ *
+ * Add option to not show calendar on focus and improve font awesome support.
+ */
+
+/*
  * Improvement by CuGBabyBeaR @ 2013-09-12
  * 
  * Make it work in bootstrap v3
@@ -73,6 +79,12 @@
 		this.showMeridian = options.showMeridian || this.element.data('show-meridian') || false;
 		this.initialDate = options.initialDate || new Date();
 
+        this.showOnFocus = false;
+        if ('showOnFocus' in options) {
+            this.showOnFocus = options.showOnFocus;
+        }
+        this.noop = function () {};
+        
 		this._attachEvents();
 
 		this.formatViewType = "datetime";
@@ -227,7 +239,7 @@
 			if (this.isInput) { // single input
 				this._events = [
 					[this.element, {
-						focus:   $.proxy(this.show, this),
+						focus:   this.showOnFocus ? $.proxy(this.show, this) : this.noop,
 						keyup:   $.proxy(this.update, this),
 						keydown: $.proxy(this.keydown, this)
 					}]
@@ -237,7 +249,7 @@
 				this._events = [
 					// For components that are not readonly, allow keyboard nav
 					[this.element.find('input'), {
-						focus:   $.proxy(this.show, this),
+						focus:   this.showOnFocus ? $.proxy(this.show, this) : this.noop,
 						keyup:   $.proxy(this.update, this),
 						keydown: $.proxy(this.keydown, this)
 					}],
