@@ -469,14 +469,31 @@
 				left = offset.left;
 			}
 			
-			if(left+220 > document.body.clientWidth){
-            			left = document.body.clientWidth-220;
-          		}
-			
-			if (this.pickerPosition == 'top-left' || this.pickerPosition == 'top-right') {
+			if (left + 220 > document.body.clientWidth) {
+                left = document.body.clientWidth - 220;
+            }
+
+            var extraMargin = 25;
+            var spaceAvailable = window.innerHeight - (offset.top + this.element.outerHeight() + this.picker.outerHeight() + extraMargin); 
+            if (spaceAvailable < 0 || this.pickerPosition == 'top-left' || this.pickerPosition == 'top-right') {
 				top = offset.top - this.picker.outerHeight();
+                if (this.pickerPosition === 'bottom-left' || this.pickerPosition === 'top-left') {
+                    this.picker.addClass('datetimepicker-dropdown-top-left');
+                    this.picker.removeClass('datetimepicker-dropdown-bottom-left');
+                } else if (this.pickerPosition === 'bottom-right' || this.pickerPosition === 'top-right') {
+                    this.picker.addClass('datetimepicker-dropdown-top-right');
+                    this.picker.removeClass('datetimepicker-dropdown-bottom-right');   
+                }
 			} else {
 				top = offset.top + this.height;
+                this.picker.removeClass('flip-arrow');
+                if (this.pickerPosition === 'top-left' || this.pickerPosition === 'bottom-left') {
+                    this.picker.addClass('datetimepicker-dropdown-bottom-left');
+                    this.picker.removeClass('datetimepicker-dropdown-top-left');
+                } else if (this.pickerPosition === 'top-right' || this.pickerPosition === 'bottom-right') {
+                    this.picker.removeClass('datetimepicker-dropdown-top-right');   
+                    this.picker.addClass('datetimepicker-dropdown-bottom-right');
+                }
 			}
 
 			top = top - containerOffset.top;
@@ -497,7 +514,7 @@
 			} else {
 				date = (this.isInput ? this.element.val() : this.element.find('input').val()) || this.element.data('date') || this.initialDate;
 				if (typeof date == 'string' || date instanceof String) {
-				  date = date.replace(/^\s+|\s+$/g,'');
+                    date = date.replace(/^\s+|\s+$/g,'');
 				}
 			}
 
