@@ -21,6 +21,13 @@
  * ========================================================= */
 
 /*
+ * Modified by Kim Grönqvist @ 2015-10-23
+ *
+ * Fix perf issue.
+ */
+
+
+/*
  * Modified by Kim Grönqvist @ 2014-07-03
  *
  * Add option to not show calendar on focus and improve font awesome support.
@@ -442,15 +449,6 @@
 		place: function () {
 			if (this.isInline) return;
 
-			var index_highest = 0;
-			$('div').each(function () {
-				var index_current = parseInt($(this).css("zIndex"), 10);
-				if (index_current > index_highest) {
-					index_highest = index_current;
-				}
-			});
-			var zIndex = index_highest + 10;
-
 			var offset, top, left, containerOffset;
 			if (this.container instanceof $) {
 				containerOffset = this.container.offset();
@@ -501,8 +499,7 @@
 
 			this.picker.css({
 				top:    top,
-				left:   left,
-				zIndex: zIndex
+				left:   left
 			});
 		},
 

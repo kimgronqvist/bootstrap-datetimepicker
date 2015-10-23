@@ -12,6 +12,7 @@
 	margin-top: 1px;
 	border-radius: 2px;
 	direction: ltr;
+    z-index: 20010 !important;
 }
 
 .datetimepicker-inline {
