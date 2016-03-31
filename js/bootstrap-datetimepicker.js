@@ -21,11 +21,17 @@
  * ========================================================= */
 
 /*
+ * Modified by Kim Grönqvist @ 2016-03-31
+ *
+ * Add selected date event.
+ * Fix focus issue.
+ */
+
+/*
  * Modified by Kim Grönqvist @ 2015-10-23
  *
  * Fix perf issue.
  */
-
 
 /*
  * Modified by Kim Grönqvist @ 2014-07-03
@@ -836,6 +842,12 @@
 
 		},
 
+        mousedown: function (e) {
+            // prevent input from losing focus (mousedown triggers before blur)
+            e.stopPropagation();
+            e.preventDefault();
+        },
+
 		click: function (e) {
 			e.stopPropagation();
 			e.preventDefault();
@@ -969,12 +981,20 @@
 								this.fill();
 								if (oldViewMode == this.viewMode && this.autoclose) {
 									this.hide();
+                                    this.element.trigger({
+				                        type: 'selectedDate',
+				                        date: this.getDate()
+			                        });                            
 								}
 							} else {
 								this.fill();
 								if (this.autoclose) {
 									this.hide();
 								}
+                                this.element.trigger({
+				                    type: 'selectedDate',
+				                    date: this.getDate()
+			                    });
 							}
 						}
 						break;
@@ -1221,12 +1241,20 @@
 						this.fill();
 						if (oldViewMode == this.viewMode && this.autoclose) {
 							this.hide();
+                            this.element.trigger({
+				                type: 'selectedDate',
+				                date: this.getDate()
+			                });
 						}
 					} else {
 						this.fill();
 						if (this.autoclose) {
 							this.hide();
 						}
+                        this.element.trigger({
+				            type: 'selectedDate',
+				            date: this.getDate()
+			            });
 					}
 					e.preventDefault();
 					break;
